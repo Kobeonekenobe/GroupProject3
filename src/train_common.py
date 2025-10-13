@@ -1,4 +1,3 @@
-cat > src/train_common.py << 'PY'
 from dataclasses import dataclass
 from typing import Dict, Any
 import joblib, json, os, numpy as np
@@ -31,4 +30,4 @@ def save_artifacts(res: TrainResult, name: str, out_dir="models"):
     joblib.dump(res.model, f"{out_dir}/{name}.joblib")
     with open(f"{out_dir}/{name}.schema.json","w") as f: f.write(json.dumps({"feature_order": res.feature_order}, indent=2))
     with open(f"{out_dir}/{name}.metrics.json","w") as f: f.write(json.dumps(res.metrics, indent=2))
-PY
+

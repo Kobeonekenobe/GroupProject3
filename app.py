@@ -1,4 +1,3 @@
-cat > app.py << 'PY'
 import os, json, joblib, numpy as np, pandas as pd, streamlit as st
 from src.io import load_csv
 
@@ -6,14 +5,15 @@ st.set_page_config(page_title="Horse Racing Predictive Analytics", page_icon="�
 st.title("🏇 Predictive Analytics in NZ Horse Racing")
 
 REGISTRY = {
-    "jw": {"title": "Frequent Pairings", "tag": "lgbm"},
-    "kns": {"title": "Lineage Features", "tag": "lineage_lgbm"},
-    "lr": {"title": "Track/Going Effects", "tag": "track_ada"},
-    "he": {"title": "Form & Ratings", "tag": "form_xgb"},
+    "he": {"label":"Betting Odds","title": "Investigate the Predicitve Value of features compared to betting odds, in the context of race winners", "tag": "form_xgb"},
+    "jw": {"label":"Frequent Pairings","title": "Do frequent trainer/jockey pairings outperform infrequent pairings", "tag": "lgbm"},
+    "kns":{"label":"Lineage Features","title": "Does incorporating lineage-based features, such as sire and dam-sire performance, improve the model’s ability to predict whether a racehorse finishes in the top three?", "tag": "lineage_lgbm"},
+    "lr": {"label":"Track/Going Effects","title": "What impact does the environment (weather and track conditions) and equipment impact on top 3 finishes in a horse race?", "tag": "track_ada"},
 }
 
 with st.sidebar:
-    initials = st.selectbox("Select teammate", list(REGISTRY.keys()), format_func=lambda k: k.upper())
+    keys = ["he","jw", "kns", "lr"]  # optional: control the order
+    initials = st.selectbox("Select analysis",options=keys,format_func=lambda k: REGISTRY[k]["label"]) # shows “Track & Weather Conditions” for lr
     tag = st.text_input("Artifact tag", value=REGISTRY[initials]["tag"])
     uploaded = st.file_uploader("Upload CSV", type=["csv"])
     use_sample = st.toggle("Use sample data", value=(uploaded is None))
@@ -69,4 +69,4 @@ if os.path.exists(model_path) and os.path.exists(schema_path):
         c3.metric("F1", f"{f1_score(y_true, out['pred']):.3f}")
 else:
     st.info(f"No artifact found for **{initials.upper()}_{tag}** yet. Train in the notebook and commit files to `/models`.")
-PY
+
