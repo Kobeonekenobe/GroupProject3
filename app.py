@@ -1,6 +1,18 @@
 import os, json, joblib, numpy as np, pandas as pd, streamlit as st
 from src.io_utils import load_csv
 
+# Harry's section
+def hf_betting_odds_section(out:pd.DataFrame) -> None:
+    st.caption("HF Section: entered")
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    #if initials == "hf" and "out" in locals():
+    # st.markdown("## Title ")
+
+    # === Commentary ===
+    st.markdown("""
+    Add Commentary here
+    """)
 
 # Kobe's section
 def kns_lineage_section(out:pd.DataFrame) -> None:
@@ -113,115 +125,30 @@ def kns_lineage_section(out:pd.DataFrame) -> None:
     when evaluating predictive insights.
     """)
 
+# Jason's section
+def jw_pairing_section(out:pd.DataFrame) -> None:
+    st.caption("JW Section: entered")
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    #if initials == "jw" and "out" in locals():
+    # st.markdown("## Title ")
+
+    # === Commentary ===
+    st.markdown("""
+    Add Commentary here
+    """)
+
 # Lagi's section
 def lr_track_section(out:pd.DataFrame) -> None:
     st.caption("LR Section: entered")
     import matplotlib.pyplot as plt
     import seaborn as sns
     #if initials == "kns" and "out" in locals():
-    # st.markdown("## 🧬 Lineage Feature Analysis")
+    # st.markdown("## Title ")
 
-    # === Background ===
+    # === Commentary ===
     st.markdown("""
-    The **Lineage Model** investigates whether genetic heritage — specifically sire and dam-sire performance —
-    enhances the ability to predict whether a racehorse finishes in the top three.
-
-    Horses often inherit key performance traits such as **stamina, acceleration, and race temperament**.
-    This section explores how lineage features interact with other core variables, especially **age**,
-    which emerged as the **most influential factor** in the base model and the **second-most important**
-    in the lineage model.
-    """)
-
-    # === Age Performance Summary ===
-    if "age" in out.columns and "top3" in out.columns:
-        age_summary = (
-            out.groupby("age")["top3"]
-            .agg(["count", "mean"])
-            .reset_index()
-            .rename(columns={"mean": "avg_top3_rate"})
-        )
-
-        # Filter out small sample sizes (<30)
-        age_summary_filtered = age_summary[age_summary["count"] >= 30].copy()
-
-        # Optional smoothing to make trend clearer
-        age_summary_filtered["smooth_rate"] = (
-            age_summary_filtered["avg_top3_rate"].rolling(window=3, center=True).mean()
-        )
-
-        # === Visualization: Average Top-3 Finish Rate by Age ===
-        st.markdown("### 🐎 Age and Performance Relationship")
-
-        fig, ax = plt.subplots()
-        sns.lineplot(
-            data=age_summary_filtered,
-            x="age",
-            y="avg_top3_rate",
-            marker="o",
-            color="red",
-            ax=ax,
-        )
-        ax.set_title("Average Top-3 Finish Rate by Age (Filtered for n ≥ 30)")
-        ax.set_xlabel("Horse Age")
-        ax.set_ylabel("Proportion of Horses Finishing Top-3")
-        st.pyplot(fig)
-
-        st.caption(
-            "Filtered to include only age groups with ≥30 samples, ensuring statistically reliable comparisons."
-        )
-
-        st.markdown("""
-        #### Interpretation
-        Below, a filtered model can be observed where age groups with fewer than 30 observations
-        are excluded to prevent statistical noise.
-
-        The analysis shows that horses aged **3 to 4** have the **highest probability of finishing in the top three**, 
-        aligning with the athletic prime typical in racing.  
-
-        A noticeable spike appeared around **age 11**, where the proportion of top-3 finishes rose to approximately **0.33**.
-        Upon closer investigation, this was found to be due to **a very small sample size (n = 3)** — 
-        a few outlier horses with strong results skewed the mean.
-        Once filtered, the trend shows a consistent decline beyond age 7, 
-        confirming that **older horses perform significantly below their younger counterparts**.
-        """)
-
-    # === Optional: Lineage Feature Correlation Visualization ===
-    lineage_cols = [
-        c for c in out.columns if any(k in c.lower() for k in ["sire", "dam_sire", "grandsire"])
-    ]
-    if lineage_cols:
-        corr = out[["score"] + lineage_cols].corr()["score"].sort_values(ascending=False).drop("score")
-        st.markdown("### 🧠 Lineage Feature Correlations with Model Score")
-        st.bar_chart(corr)
-        st.caption(
-            "Lineage variables such as **sire_avg_top3** and **dam_sire_win_rate** show moderate positive correlation "
-            "with predicted race success probabilities, supporting the hypothesis that superior bloodlines "
-            "enhance performance potential."
-        )
-
-    # === Optional: Prediction Score Distribution ===
-    st.markdown("### 🎯 Prediction Score Distribution")
-    fig, ax = plt.subplots()
-    sns.histplot(out["score"], bins=30, kde=True, color="royalblue", ax=ax)
-    ax.set_title("Distribution of Predicted Top-3 Probabilities")
-    ax.set_xlabel("Predicted Probability (score)")
-    ax.set_ylabel("Count")
-    st.pyplot(fig)
-    st.caption(
-        "The probability distribution shows how confidently the model distinguishes between likely top performers "
-        "and lower-tier horses. A more polarized shape reflects stronger model discrimination."
-    )
-
-    # === Summary Paragraph ===
-    st.markdown("""
-    ---
-    **Summary:**  
-    Age remains the most influential driver of performance, peaking between **3–4 years old** and
-    declining thereafter.  
-    Incorporating lineage variables improves both **model interpretability** and **predictive accuracy**, 
-    capturing hereditary performance signals that complement traditional race metrics.
-    This analysis underscores the importance of **sample size validation** and **contextual feature interpretation**
-    when evaluating predictive insights.
+    Add Commentary here
     """)
 
 
