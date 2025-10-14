@@ -9,3 +9,5 @@ def ensure_columns(df: pd.DataFrame, expected: list[str]):
     missing = set(expected) - set(df.columns)
     if missing:
         raise ValueError(f"Missing columns: {sorted(missing)}")
+    
+    
