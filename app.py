@@ -219,22 +219,35 @@ if os.path.exists(model_path) and os.path.exists(schema_path):
         c1.metric("AUC", "N/A" if np.isnan(auc) else f"{auc:.3f}")
         c2.metric("Accuracy", f"{accuracy_score(y_true, out['pred']):.3f}")
         c3.metric("F1", f"{f1_score(y_true, out['pred']):.3f}")
+    
+if initials == "hf":
+            try: 
+                hf_betting_odds_section(out)
+            except Exception as e:
+                st.error("HF section error")
+                st.exception(e)
 
-    if initials == "kns":
+if initials == "kns":
             try: 
                 kns_lineage_section(out)
             except Exception as e:
                 st.error("KNS section error")
                 st.exception(e)
 
-    if initials == "lr":
+if initials == "jw":
+            try: 
+                jw_pairing_section(out)
+            except Exception as e:
+                st.error("JW section error")
+                st.exception(e)
+
+if initials == "lr":
             try: 
                 kns_lineage_section(out)
             except Exception as e:
                 st.error("LR section error")
                 st.exception(e)
-
-    else:
-        st.info(f"No artifact found for **{initials.upper()}_{tag}** yet. Train in the notebook and commit files to `/models`.")
+else:
+    st.info(f"No artifact found for **{initials.upper()}_{tag}** yet. Train in the notebook and commit files to `/models`.")
     
     
